@@ -57,7 +57,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
           name="description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
           required
         />
       </div>
@@ -69,7 +69,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
           name="startDate"
           value={formData.startDate}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
           required
         />
       </div>
@@ -81,7 +81,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
           name="endDate"
           value={formData.endDate}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
           required
         />
       </div>
@@ -92,7 +92,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
           name="perInCharge"
           value={formData.perInCharge}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
           required
         />
       </div>
@@ -103,7 +103,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
           name="priority"
           value={formData.priority}
           onChange={handleChange}
-          className="w-full border p-2 rounded"
+          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
           required
         >
           <option value="">Seleccione</option>
