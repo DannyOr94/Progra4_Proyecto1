@@ -23,18 +23,18 @@ const AddTareaForm = () => {
      // 1️⃣ Initialize form state with defaultValues and a submit handler
   const form = useForm({
     defaultValues: {
-      startdate: '',
-      enddate: '',
-      perincharge: '',
+      startDate: '',
+      endDate: '',
+      perInCharge: '',
       description: '',
-      Priority: '',
+      priority: '',
     },
     
 onSubmit: async ({ value }) => {
-  const { startdate, enddate } = value;
+  const { startDate, endDate } = value;
 
   // Validación manual directa
-  if (startdate && enddate && new Date(startdate) > new Date(enddate)) {
+  if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
     toast.error('La fecha de inicio no puede ser posterior a la fecha final.');
     return;
   }
@@ -84,14 +84,14 @@ onSubmit: async ({ value }) => {
       
         {/* ─── startDate Field ─────────────────────── */}
         <div className="flex flex-col">
-          <label htmlFor="startdate" className="mb-1 text-gray-700 font-medium">
+          <label htmlFor="startDate" className="mb-1 text-gray-700 font-medium">
             Fecha de inicio:
           </label>
-          <form.Field name="startdate">
+          <form.Field name="startDate">
             {field => (
               <input
-                id="startdate"
-                name="startdate"
+                id="startDate"
+                name="startDate"
                 type="date"
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
@@ -103,16 +103,16 @@ onSubmit: async ({ value }) => {
           </form.Field>
         </div>
       
-        {/* ─── enddate Field ────────────────────── */}
+        {/* ─── endDate Field ────────────────────── */}
         <div className="flex flex-col">
-          <label htmlFor="enddate" className="mb-1 text-gray-700 font-medium">
+          <label htmlFor="endDate" className="mb-1 text-gray-700 font-medium">
             Fecha final:
           </label>
-          <form.Field name="enddate">
+          <form.Field name="endDate">
             {field => (
               <input
-                id="enddate"
-                name="enddate"
+                id="endDate"
+                name="endDate"
                 type="date"
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
@@ -126,14 +126,14 @@ onSubmit: async ({ value }) => {
       
         {/* ─── Person in charge Field ─────────────────────── */}
         <div className="flex flex-col">
-          <label htmlFor="perincharge" className="mb-1 text-gray-700 font-medium">
+          <label htmlFor="perInCharge" className="mb-1 text-gray-700 font-medium">
             Persona a cargo:
           </label>
-          <form.Field name="perincharge">
+          <form.Field name="perInCharge">
             {field => (
               <input
-                id="perincharge"
-                name="perincharge"
+                id="perInCharge"
+                name="perInCharge"
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -147,14 +147,14 @@ onSubmit: async ({ value }) => {
         
       {/* ─── Priority Field ─────────────────────── */}
 <div className="flex flex-col">
-  <label htmlFor="Priority" className="mb-1 text-gray-700 font-medium">
+  <label htmlFor="priority" className="mb-1 text-gray-700 font-medium">
     Nivel de prioridad:
   </label>
-  <form.Field name="Priority">
+  <form.Field name="priority">
     {field => (
       <select
-        id="Priority"
-        name="Priority"
+        id="priority"
+        name="priority"
         value={field.state.value}
         onChange={e => field.handleChange(e.target.value)}
         onBlur={field.handleBlur}

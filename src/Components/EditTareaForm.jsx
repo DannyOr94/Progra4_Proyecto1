@@ -9,11 +9,11 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
 
   const [formData, setFormData] = useState({
     id: tarea.id,
-  description: tarea.description,
-  startdate: tarea.startDate,
-  enddate: tarea.endDate,
-  perincharge: tarea.perInCharge,
-  Priority: tarea.priority
+    description: tarea.description,
+    startDate: tarea.startDate,
+    endDate: tarea.endDate,
+    perInCharge: tarea.perInCharge,
+    priority: tarea.priority
   });
 
   useEffect(() => {
@@ -35,25 +35,19 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-if (formData.startdate > formData.enddate) {
-    toast.error("La fecha de inicio no puede ser despues de la fecha final.");
-    return;
-  }
-
+    if (formData.startDate > formData.endDate) {
+      toast.error("La fecha de inicio no puede ser despues de la fecha final.");
+      return;
+    }
 
     mutate(formData, {
       onSuccess: () => {
         toast.success("Tarea editada.");
-    if (onSuccess) onSuccess();
-    queryClient.invalidateQueries(['tareas']);
-  
-  
-  
-  
-  }
-    
-});
-  }
+        if (onSuccess) onSuccess();
+        queryClient.invalidateQueries(['tareas']);
+      },
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -73,7 +67,7 @@ if (formData.startdate > formData.enddate) {
         <input
           type="date"
           name="startDate"
-          value={formData.startdate}
+          value={formData.startDate}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -85,7 +79,7 @@ if (formData.startdate > formData.enddate) {
         <input
           type="date"
           name="endDate"
-          value={formData.enddate}
+          value={formData.endDate}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -96,7 +90,7 @@ if (formData.startdate > formData.enddate) {
         <label className="block font-medium">Persona a cargo</label>
         <input
           name="perInCharge"
-          value={formData.perincharge}
+          value={formData.perInCharge}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -107,7 +101,7 @@ if (formData.startdate > formData.enddate) {
         <label className="block font-medium">Nivel de prioridad</label>
         <select
           name="priority"
-          value={formData.Priority}
+          value={formData.priority}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
