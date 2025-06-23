@@ -144,7 +144,7 @@ function InventarioPage() {
               placeholder="Buscar en el inventario..."
               value={filtro}
               onChange={(e) => setFiltro(e.target.value)}
-              className="border border-gray-300 px-3 py-2 rounded w-64"
+              className="border border-teal-700 px-3 py-2 rounded w-64 focus:outline-none focus:ring-2 focus:ring-teal-600"
             />
             <button
               onClick={() => {
@@ -162,10 +162,11 @@ function InventarioPage() {
 
           {showModal && (
             <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 overflow-auto">
-              <div className="bg-white p-6 rounded shadow-lg w-full max-w-sm sm:max-w-md md:max-w-lg max-h-screen overflow-y-auto mx-4 my-8">
-                <h2 className="text-xl font-semibold mb-4">
-                  {itemEditando ? 'Editar Artículo' : 'Agregar Artículo'}
-                </h2>
+              <div className="bg-gradient-to-r from-teal-900 to-teal-600 p-1 rounded-xl w-full max-w-sm sm:max-w-md md:max-w-lg mx-4 my-8">
+                <div className="bg-white p-6 rounded shadow-lg max-h-screen overflow-y-auto">
+                  <h2 className="text-xl font-semibold mb-4">
+                    {itemEditando ? 'Editar Artículo' : 'Agregar Artículo'}
+                  </h2>
                 <form onSubmit={guardar} className="space-y-4">
                   <div>
                     <label className="block font-medium">Nombre</label>
@@ -174,7 +175,7 @@ function InventarioPage() {
                      name="nombre"
                      value={nombreInput}
                      onChange={handleNombreChange}
-                     className="w-full border border-gray-300 px-3 py-2 rounded"
+                     className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                      />
                   </div>
                   <div>
@@ -183,7 +184,7 @@ function InventarioPage() {
                       type="text"
                       name="descripcion"
                       defaultValue={itemEditando?.descripcion || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                     />
                   </div>
                   <div>
@@ -192,7 +193,7 @@ function InventarioPage() {
                       type="number"
                       name="cantidad"
                       defaultValue={itemEditando?.cantidad || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       min="0"
                       step="1"
                     />
@@ -202,7 +203,7 @@ function InventarioPage() {
                      <select
                      name="unidad"
                       defaultValue={itemEditando?.unidad || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                      required
                      >
                       <option value="" disabled>Seleccione una unidad...</option>
@@ -221,7 +222,7 @@ function InventarioPage() {
                       type="date"
                       name="fechaIngreso"
                       defaultValue={itemEditando?.fechaIngreso?.slice(0, 10) || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                     />
                   </div>
                  <div>
@@ -231,14 +232,14 @@ function InventarioPage() {
                     type="number"
                     name="precio"
                     defaultValue={itemEditando?.precio || ''}
-                    className="flex-1 border border-gray-300 px-3 py-2 rounded"
+                    className="flex-1 border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                    min="0"
                    step="0.01"
                  />
                   <select
                   name="moneda"
                  defaultValue={itemEditando?.moneda || '₡'}
-                 className="border border-gray-300 px-2 py-2 rounded"
+                 className="border border-teal-700 px-2 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                  >
                  <option value="₡">₡</option>
                   <option value="$">$</option>
@@ -253,7 +254,7 @@ function InventarioPage() {
                       type="text"
                       name="categoria"
                       defaultValue={itemEditando?.categoria || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                     />
                   </div>
 
@@ -273,6 +274,7 @@ function InventarioPage() {
                     </button>
                   </div>
                 </form>
+              </div>
               </div>
             </div>
           )}

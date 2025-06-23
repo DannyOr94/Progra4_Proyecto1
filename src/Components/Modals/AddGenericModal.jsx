@@ -16,22 +16,22 @@ const AddGenericModal = ({ show, isOpen, onClose, title, children, size = "md" }
     // backdrop
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
       {/* panel */}
-      <div
-        className={`relative bg-white rounded-lg shadow-lg w-full ${sizeClass} mx-4 my-8 p-6`}
-      >
-        {/* close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl leading-none"
-        >
-          &times;
-        </button>
+      <div className={`bg-gradient-to-r from-teal-900 to-teal-600 p-1 rounded-xl w-full ${sizeClass} mx-4 my-8`}>
+        <div className="relative bg-white rounded-lg shadow-lg p-6">
+          {/* close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl leading-none"
+          >
+            &times;
+          </button>
 
-        {/* optional title */}
-        {title && <h2 className="mb-4 text-xl font-semibold">{title}</h2>}
+          {/* optional title */}
+          {title && <h2 className="mb-4 text-xl font-semibold">{title}</h2>}
 
-        {/* whatever you pass in */}
-        <div className="max-h-[80vh] overflow-y-auto">{children}</div>
+          {/* whatever you pass in */}
+          <div className="max-h-[80vh] overflow-y-auto">{children}</div>
+        </div>
       </div>
     </div>
   );

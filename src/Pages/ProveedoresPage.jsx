@@ -114,7 +114,7 @@ function ProveedoresPage() {
               placeholder="Buscar proveedores..."
               value={filtro}
               onChange={(e) => setFiltro(e.target.value)}
-              className="border border-gray-300 px-3 py-2 rounded w-64"
+              className="border border-teal-700 px-3 py-2 rounded w-64 focus:outline-none focus:ring-2 focus:ring-teal-600"
             />
             <button
               onClick={() => {
@@ -131,18 +131,19 @@ function ProveedoresPage() {
 
           {showModal && (
             <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 overflow-auto">
-              <div className="bg-white p-6 rounded shadow-lg w-full max-w-sm sm:max-w-md md:max-w-lg max-h-screen overflow-y-auto mx-4 my-8">
-                <h2 className="text-xl font-semibold mb-4">
-                  {proveedorEditando ? 'Editar Proveedor' : 'Agregar Proveedor'}
-                </h2>
-                <form onSubmit={guardar} className="space-y-4">
+              <div className="bg-gradient-to-r from-teal-900 to-teal-600 p-1 rounded-xl w-full max-w-sm sm:max-w-md md:max-w-lg mx-4 my-8">
+                <div className="bg-white p-6 rounded shadow-lg max-h-screen overflow-y-auto">
+                  <h2 className="text-xl font-semibold mb-4">
+                    {proveedorEditando ? 'Editar Proveedor' : 'Agregar Proveedor'}
+                  </h2>
+                  <form onSubmit={guardar} className="space-y-4">
                   <div>
                     <label className="block font-medium">Nombre de la Empresa</label>
                     <input
                       type="text"
                       name="nombreEmpresa"
                       defaultValue={proveedorEditando?.nombreEmpresa || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -154,7 +155,7 @@ function ProveedoresPage() {
                       pattern="^[^\d]+$"
                       title="No se permiten números"
                       defaultValue={proveedorEditando?.nombreRepresentante || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -166,7 +167,7 @@ function ProveedoresPage() {
                       pattern="\d+"
                       title="Solo se permiten números"
                       defaultValue={proveedorEditando?.cedulaRepresentante || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -176,7 +177,7 @@ function ProveedoresPage() {
                       type="email"
                       name="correoEmpresa"
                       defaultValue={proveedorEditando?.correoEmpresa || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -188,7 +189,7 @@ function ProveedoresPage() {
                       pattern="\d+"
                       title="Solo se permiten números"
                       defaultValue={proveedorEditando?.telefonoEmpresa || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -198,7 +199,7 @@ function ProveedoresPage() {
                       type="text"
                       name="descripcionProductos"
                       defaultValue={proveedorEditando?.descripcionProductos || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -208,7 +209,7 @@ function ProveedoresPage() {
                       type="text"
                       name="numeroCuenta"
                       defaultValue={proveedorEditando?.numeroCuenta || ''}
-                      className="w-full border border-gray-300 px-3 py-2 rounded"
+                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
                       required
                     />
                   </div>
@@ -229,6 +230,7 @@ function ProveedoresPage() {
                     </button>
                   </div>
                 </form>
+              </div>
               </div>
             </div>
           )}
