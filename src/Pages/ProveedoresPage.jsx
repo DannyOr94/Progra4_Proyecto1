@@ -12,12 +12,15 @@ import Login from "../Components/Login";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ConfirmModal } from '../Components/Modals/ConfirmModal';
 
 function ProveedoresPage() {
   const [proveedores, setProveedores] = useState([]);
   const [filtro, setFiltro] = useState('');
   const [proveedorEditando, setProveedorEditando] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [toDeleteId, setToDeleteId] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     async function cargar() {
@@ -75,14 +78,18 @@ function ProveedoresPage() {
     setShowModal(true);
   };
 
-  const eliminar = async (id) => {
-    if (!window.confirm('¿Seguro que deseas eliminar este proveedor?')) return;
+  const eliminar = (id) => {
+    setToDeleteId(id);
+    setShowConfirm(true);
+  };
 
-    const nuevaLista = proveedores.filter((p) => p.id !== id);
+  const confirmarEliminar = async () => {
+    const nuevaLista = proveedores.filter((p) => p.id !== toDeleteId);
     setProveedores(nuevaLista);
-
-    await eliminarProveedor(id);
+    await eliminarProveedor(toDeleteId);
     toast.success("Proveedor eliminado correctamente.");
+    setShowConfirm(false);
+    setToDeleteId(null);
   };
 
 
@@ -238,6 +245,14 @@ function ProveedoresPage() {
       </div>
         : <Login />
       }
+      {showConfirm && (
+        <ConfirmModal
+          title="¿Eliminar proveedor?"
+          message="Esta acción eliminará el proveedor permanentemente."
+          onConfirm={confirmarEliminar}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
     </div>
 
   );

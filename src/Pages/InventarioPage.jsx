@@ -10,13 +10,15 @@ import { AuthContext } from "../Context/AuthContext.jsx";
 import Login from "../Components/Login";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Swal from 'sweetalert2';
+import { ConfirmModal } from '../Components/Modals/ConfirmModal';
 
 function InventarioPage() {
   const [inventario, setInventario] = useState([]);
   const [filtro, setFiltro] = useState('');
   const [itemEditando, setItemEditando] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [toDeleteId, setToDeleteId] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const { user } = useContext(AuthContext);
   const [nombreInput, setNombreInput] = useState('');
 
@@ -94,28 +96,18 @@ function InventarioPage() {
     setShowModal(true);
   };
 
-   const eliminar = async (id) => {
-    const confirmacion = await Swal.fire({
-      title: '¿Estás seguro?',
-      text: "¡No podrás deshacer esto!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#e2504c',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    });
+  const eliminar = (id) => {
+    setToDeleteId(id);
+    setShowConfirm(true);
+  };
 
-    if (confirmacion.isConfirmed) {
-      await eliminarInventario(id);
-      const data = await obtenerInventario();
-      setInventario(data);
-      Swal.fire(
-        '¡Eliminado!',
-        'El artículo fue eliminado correctamente.',
-        'success'
-      );
-    }
+  const confirmarEliminar = async () => {
+    await eliminarInventario(toDeleteId);
+    const data = await obtenerInventario();
+    setInventario(data);
+    toast.success('Artículo eliminado correctamente.');
+    setShowConfirm(false);
+    setToDeleteId(null);
   };
 
   const cancelForm = () => {
@@ -282,6 +274,14 @@ function InventarioPage() {
       </div>
         : <Login />
       }
+      {showConfirm && (
+        <ConfirmModal
+          title="¿Eliminar artículo?"
+          message="Esta acción eliminará el artículo permanentemente."
+          onConfirm={confirmarEliminar}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
     </div>
   );
 }

@@ -3,9 +3,8 @@ import { useMemo, useState } from "react";
 import { useQueryClient } from '@tanstack/react-query';
 import { eliminarTarea, useObtenerTareas } from "../Services/TareasServices";
 import { ToastContainer, toast } from 'react-toastify';
-import { confirmAlert } from 'react-confirm-alert';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { ConfirmModal } from './Modals/ConfirmModal';
 import TareaButton from "./TareaButton"
 import AddGenericModal from "./Modals/AddGenericModal"
 import EditTareaForm from "./EditTareaForm"
@@ -31,32 +30,25 @@ const tareas = useMemo(() => data ?? [], [data]);
     setShowEditModal(true);
   };
 
+const [toDelete, setToDelete] = useState(null);
+const [showConfirm, setShowConfirm] = useState(false);
+
 const handleDelete = (tarea) => {
-  confirmAlert({
-    title: 'Confirmación',
-    message: `¿Seguro que quieres borrar la tarea "${tarea.description}" del fontanero ${tarea.perInCharge}?`,
-    buttons: [
-      {
-        label: 'Sí, borrar',
-        onClick: async () => {
-          try {
-            await eliminarTarea(tarea.id);
-            toast.success("Tarea eliminada correctamente.");
-            queryClient.invalidateQueries(['tareas']);
-          } catch (error) {
-            console.error("Error al eliminar tarea:", error);
-            toast.error("Ocurrió un error al borrar la tarea.");
-          }
-        }
-      },
-      {
-        label: 'Cancelar',
-        onClick: () => {
-          toast.info("Acción cancelada.");
-        }
-      }
-    ]
-  });
+  setToDelete(tarea);
+  setShowConfirm(true);
+};
+
+const confirmarEliminar = async () => {
+  try {
+    await eliminarTarea(toDelete.id);
+    toast.success("Tarea eliminada correctamente.");
+    queryClient.invalidateQueries(['tareas']);
+  } catch (error) {
+    console.error("Error al eliminar tarea:", error);
+    toast.error("Ocurrió un error al borrar la tarea.");
+  }
+  setShowConfirm(false);
+  setToDelete(null);
 };
 
 
@@ -171,6 +163,15 @@ return(
           />
         )}
       </AddGenericModal>
+
+      {showConfirm && (
+        <ConfirmModal
+          title="¿Eliminar tarea?"
+          message={`Esta acción eliminará la tarea "${toDelete?.description}".`}
+          onConfirm={confirmarEliminar}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
 
     </div>
   );

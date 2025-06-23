@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { deleteUser, useUsers } from "../Services/UsersService";
 import { SortAsc, SortDesc } from "lucide-react";
 import AddGenericModal from "../Components/Modals/AddGenericModal";
+import { ConfirmModal } from "../Components/Modals/ConfirmModal";
 import EditUsersPage from "./EditUsersPage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -231,31 +232,12 @@ const eliminarUsuarioConfirmado = () => {
       </div>
 
       {modalVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center border border-gray-300">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              ¿Eliminar Usuario?
-            </h3>
-            <p className="text-sm text-gray-600 mb-6">
-              Esta acción no se puede deshacer. ¿Estás seguro de eliminar al
-              usuario <span className="font-bold">{usuarioSeleccionado?.nombre}</span>?
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={eliminarUsuarioConfirmado}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
-              >
-                Eliminar
-              </button>
-              <button
-                onClick={() => setModalVisible(false)}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmModal
+          title="¿Eliminar Usuario?"
+          message={`Esta acción no se puede deshacer. ¿Eliminar al usuario ${usuarioSeleccionado?.nombre}?`}
+          onConfirm={eliminarUsuarioConfirmado}
+          onCancel={() => setModalVisible(false)}
+        />
       )}
 
       {editModalOpen && usuarioSeleccionado && (
