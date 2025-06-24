@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const BASE_URL = "https://localhost:7255/api/Inventario";
+const BASE_URL = "http://localhost:5067/api/Inventario";
 
 // Función para obtener headers con token
 const getAuthHeaders = () => {

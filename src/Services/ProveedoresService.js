@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_KEY = import.meta.env.VITE_MASTER_KEY_Proveedores;
-const BASE_URL = "https://localhost:7255/api/Proveedores";
+const BASE_URL = "http://localhost:5067/api/Proveedores";
 const headers = {
   'Content-Type': 'application/json',
   'X-Master-Key': API_KEY,
