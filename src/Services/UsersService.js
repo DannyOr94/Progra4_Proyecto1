@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const BASE_URL = 'https://localhost:7255/api/Users';
+const BASE_URL = 'http://localhost:5067/api/Users';
 
 // Función para obtener headers con el token JWT
 const getAuthHeaders = () => {

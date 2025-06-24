@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-const BASE_URL = "https://localhost:7255/api/Reportes"; 
+const BASE_URL = "http://localhost:5067/api/Reportes";
 
 export const fetchReportes = async () => {
   const res = await axios.get(BASE_URL);

@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const BASE_URL = "https://localhost:7255/api/Tareas";
+const BASE_URL = "http://localhost:5067/api/Tareas";
 
 export const useObtenerTareas = () => {
   return useQuery({
