@@ -47,28 +47,28 @@ const UserForm = ({ formData, handleChange, handleSubmit, modo = "Agregar" }) =>
             { label: "Correo", name: "correo", type: "email" },
           ].map(({ label, name, type = "text" }) => (
             <div key={name}>
-              <label className="text-black-800 font-semibold">{label}</label>
+              <label className="form-label">{label}</label>
               <input
                 type={type}
                 name={name}
                 value={formData[name] || ""}
                 onChange={handleValidatedChange}
                 autoComplete="off"
-                className="w-full p-2 mt-1 border border-teal-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="form-input mt-1"
                 required={name !== "zona"}
               />
             </div>
           ))}
 
           <div className="md:col-span-2">
-            <label className="text-black-800 font-semibold">Dirección</label>
+            <label className="form-label">Dirección</label>
             <input
               type="text"
               name="direccion"
               value={formData.direccion || ""}
               onChange={handleChange}
               autoComplete="off"
-              className="w-full p-2 mt-1 border border-teal-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-600"
+              className="form-input mt-1"
               required
             />
           </div>
@@ -76,13 +76,13 @@ const UserForm = ({ formData, handleChange, handleSubmit, modo = "Agregar" }) =>
           <div className="md:col-span-2 flex justify-center gap-4 mt-4">
             <button
               type="submit"
-              className="bg-teal-700 hover:bg-teal-800 text-white font-semibold px-6 py-2 rounded shadow transition"
+              className="form-button"
             >
               Guardar
             </button>
             <button
               type="button"
-              className="bg-gray-400 hover:bg-gray-500 text-white font-semibold px-6 py-2 rounded shadow transition"
+              className="form-button-secondary"
               onClick={() => window.history.back()}
             >
               Cancelar

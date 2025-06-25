@@ -8,8 +8,9 @@ import {
 } from '../Services/InventarioService';
 import { AuthContext } from "../Context/AuthContext.jsx";
 import Login from "../Components/Login";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationToast } from '../Components/Toast';
 import Swal from 'sweetalert2';
 
 function InventarioPage() {
@@ -125,7 +126,7 @@ function InventarioPage() {
   };
 
   const filtrados = inventario.filter((i) =>
-    [i.nombre, i.descripcion, i.unidad, i.categoria]
+    Object.values(i)
       .join(' ')
       .toLowerCase()
       .includes(filtro.toLowerCase())
@@ -135,7 +136,7 @@ function InventarioPage() {
     <div>
       {user ? <div className="p-4">
         <div className="p-6 w-full mx-auto bg-white min-h-screen">
-          <ToastContainer />
+          <NotificationToast />
           <h1 className="text-2xl font-bold mb-4">Gestión de Inventario</h1>
 
           <div className="flex items-center justify-between mb-4">
@@ -144,7 +145,7 @@ function InventarioPage() {
               placeholder="Buscar en el inventario..."
               value={filtro}
               onChange={(e) => setFiltro(e.target.value)}
-              className="border border-teal-700 px-3 py-2 rounded w-64 focus:outline-none focus:ring-2 focus:ring-teal-600"
+              className="form-input w-64"
             />
             <button
               onClick={() => {
@@ -152,13 +153,14 @@ function InventarioPage() {
                 setNombreInput("");
                 setShowModal(true);
               }}
-              className="bg-[#009285] text-white px-4 py-2 rounded hover:bg-[#055a55]"
+              className="form-button"
             >
               Agregar Artículo
             </button>
           </div>
 
           <InventarioList inventario={filtrados} onEditar={editar} onEliminar={eliminar} />
+          <NotificationToast />
 
           {showModal && (
             <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 overflow-auto">
@@ -169,41 +171,41 @@ function InventarioPage() {
                   </h2>
                 <form onSubmit={guardar} className="space-y-4">
                   <div>
-                    <label className="block font-medium">Nombre</label>
+                    <label className="form-label">Nombre</label>
                     <input
                      type="text"
                      name="nombre"
                      value={nombreInput}
                      onChange={handleNombreChange}
-                     className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                     className="form-input"
                      />
                   </div>
                   <div>
-                    <label className="block font-medium">Descripción</label>
+                    <label className="form-label">Descripción</label>
                     <input
                       type="text"
                       name="descripcion"
                       defaultValue={itemEditando?.descripcion || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Cantidad</label>
+                    <label className="form-label">Cantidad</label>
                     <input
                       type="number"
                       name="cantidad"
                       defaultValue={itemEditando?.cantidad || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       min="0"
                       step="1"
                     />
                   </div>
                       <div>
-                    <label className="block font-medium">Tipo de unidad de medida</label>
+                    <label className="form-label">Tipo de unidad de medida</label>
                      <select
                      name="unidad"
                       defaultValue={itemEditando?.unidad || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                      required
                      >
                       <option value="" disabled>Seleccione una unidad...</option>
@@ -217,22 +219,22 @@ function InventarioPage() {
                       </select>
                     </div>
                   <div>
-                    <label className="block font-medium">Fecha de Ingreso</label>
+                    <label className="form-label">Fecha de Ingreso</label>
                     <input
                       type="date"
                       name="fechaIngreso"
                       defaultValue={itemEditando?.fechaIngreso?.slice(0, 10) || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                     />
                   </div>
                  <div>
-                 <label className="block font-medium">Precio</label>
+                 <label className="form-label">Precio</label>
                  <div className="flex gap-2">
                   <input
                     type="number"
                     name="precio"
                     defaultValue={itemEditando?.precio || ''}
-                    className="flex-1 border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                    className="flex-1 form-input"
                    min="0"
                    step="0.01"
                  />
@@ -249,12 +251,12 @@ function InventarioPage() {
                   </div>
 
                   <div>
-                    <label className="block font-medium">Categoría</label>
+                    <label className="form-label">Categoría</label>
                     <input
                       type="text"
                       name="categoria"
                       defaultValue={itemEditando?.categoria || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                     />
                   </div>
 
@@ -262,7 +264,7 @@ function InventarioPage() {
                     <button
                       type="button"
                       onClick={cancelForm}
-                      className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                      className="form-button-secondary"
                     >
                       Cancelar
                     </button>
