@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useEditarTarea } from "../Services/TareasServices";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useQueryClient } from "@tanstack/react-query";
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationToast } from './Toast';
 
 const EditTareaForm = ({ tarea, onSuccess }) => {
   const queryClient = useQueryClient();
@@ -22,7 +23,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
     }
   }, [tarea]);
 
-  const { mutate } = useEditarTarea();
+  const { mutateAsync } = useEditarTarea();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +33,7 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.startDate > formData.endDate) {
@@ -40,70 +41,76 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
       return;
     }
 
-    mutate(formData, {
-      onSuccess: () => {
-        toast.success("Tarea editada.");
-        if (onSuccess) onSuccess();
-        queryClient.invalidateQueries(['tareas']);
-      },
-    });
+    try {
+      await toast.promise(
+        mutateAsync(formData),
+        {
+          pending: 'Agregando...',
+          success: 'Agregado correctamente ✅',
+          error: 'Ocurrió un error ❌'
+        },
+        { position: 'top-right', autoClose: 1500 }
+      );
+      if (onSuccess) onSuccess();
+      queryClient.invalidateQueries(['tareas']);
+    } catch {}
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block font-medium">Descripción</label>
+        <label className="form-label">Descripción</label>
         <input
           name="description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+          className="form-input"
           required
         />
       </div>
 
       <div>
-        <label className="block font-medium">Fecha de inicio</label>
+        <label className="form-label">Fecha de inicio</label>
         <input
           type="date"
           name="startDate"
           value={formData.startDate}
           onChange={handleChange}
-          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+          className="form-input"
           required
         />
       </div>
 
       <div>
-        <label className="block font-medium">Fecha de fin</label>
+        <label className="form-label">Fecha de fin</label>
         <input
           type="date"
           name="endDate"
           value={formData.endDate}
           onChange={handleChange}
-          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+          className="form-input"
           required
         />
       </div>
 
       <div>
-        <label className="block font-medium">Persona a cargo</label>
+        <label className="form-label">Persona a cargo</label>
         <input
           name="perInCharge"
           value={formData.perInCharge}
           onChange={handleChange}
-          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+          className="form-input"
           required
         />
       </div>
 
       <div>
-        <label className="block font-medium">Nivel de prioridad</label>
+        <label className="form-label">Nivel de prioridad</label>
         <select
           name="priority"
           value={formData.priority}
           onChange={handleChange}
-          className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+          className="form-input"
           required
         >
           <option value="">Seleccione</option>
@@ -115,11 +122,12 @@ const EditTareaForm = ({ tarea, onSuccess }) => {
 
       <button
         type="submit"
-        className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-2 rounded-lg"
+        className="form-button"
       >
         Guardar cambios
       </button>
     </form>
+      <NotificationToast />
   );
 
 };

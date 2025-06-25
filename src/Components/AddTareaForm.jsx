@@ -1,24 +1,16 @@
 import { useForm } from '@tanstack/react-form'
 import { useCrearTarea } from '../Services/TareasServices'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationToast } from './Toast';
 
 
 const AddTareaForm = () => {
   const queryClient = useQueryClient()
 
   // 1) grab your mutation
- const { mutate: addTarea, isLoading, isError } = useCrearTarea({
-    onSuccess: () => {
-      toast.success("Tarea agregada.")
-      queryClient.invalidateQueries(['tareas'])
-      form.reset()
-    },
-    onError: () => {
-      toast.error("Ocurrió un error al agregar la tarea.")
-    }
-  })
+ const { mutateAsync: addTarea } = useCrearTarea();
 
      // 1️⃣ Initialize form state with defaultValues and a submit handler
   const form = useForm({
@@ -33,7 +25,6 @@ const AddTareaForm = () => {
 onSubmit: async ({ value }) => {
   const { startDate, endDate } = value;
 
-  // Validación manual directa
   if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
     toast.error('La fecha de inicio no puede ser posterior a la fecha final.');
     return;
@@ -44,7 +35,21 @@ onSubmit: async ({ value }) => {
     id: crypto.randomUUID(),
   };
 
-  addTarea(nuevaTarea);
+  try {
+    await toast.promise(
+      addTarea(nuevaTarea),
+      {
+        pending: 'Agregando...',
+        success: 'Agregado correctamente ✅',
+        error: 'Ocurrió un error ❌'
+      },
+      { position: 'top-right', autoClose: 1500 }
+    );
+    queryClient.invalidateQueries(['tareas']);
+    form.reset();
+  } catch {
+    // error handled by toast.promise
+  }
 }
 
       
@@ -63,7 +68,7 @@ onSubmit: async ({ value }) => {
 
 {/* ─── description Field ─────────────────────── */}
         <div className="flex flex-col">
-          <label htmlFor="description" className="mb-1 text-gray-700 font-medium">
+          <label htmlFor="description" className="form-label mb-1">
             ¿Cual es la tarea?:
           </label>
           <form.Field name="description">
@@ -74,7 +79,7 @@ onSubmit: async ({ value }) => {
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
-                className="border border-teal-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="form-input"
                 required
               />
             )}
@@ -96,7 +101,7 @@ onSubmit: async ({ value }) => {
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
-                className="border border-teal-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="form-input"
                 required
               />
             )}
@@ -117,7 +122,7 @@ onSubmit: async ({ value }) => {
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
-                className="border border-teal-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="form-input"
                 required
               />
             )}
@@ -137,7 +142,7 @@ onSubmit: async ({ value }) => {
                 value={field.state.value}
                 onChange={e => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
-                className="border border-teal-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="form-input"
                 required
               />
             )}
@@ -158,7 +163,7 @@ onSubmit: async ({ value }) => {
         value={field.state.value}
         onChange={e => field.handleChange(e.target.value)}
         onBlur={field.handleBlur}
-        className="border border-teal-700 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+        className="form-input"
         required
       >
         <option value="">Selecciona una prioridad</option>
@@ -175,19 +180,20 @@ onSubmit: async ({ value }) => {
           <button
             type="submit"
             disabled={!form.state.canSubmit}
-            className="bg-teal-600 hover:bg-teal-700 text-white font-bold px-6 py-2 rounded-lg"
+            className="form-button"
           >
             Agregar
           </button>
           <button
             type="button"
             onClick={() => form.reset()}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
+            className="form-button-secondary"
           >
             Limpiar
           </button>
         </div>
-      </form>      
+      </form>
+      <NotificationToast />      
     )
 }
 

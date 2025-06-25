@@ -39,18 +39,7 @@ export default function ReportTable() {
   const [showLoading, setShowLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
-  const [inputValue, setInputValue] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    if (inputValue.trim() === '') {
-      setSearchTerm('');
-    }
-  }, [inputValue]);
-
-  const handleSearch = () => {
-    setSearchTerm(inputValue.trim().toLowerCase());
-  };
 
   const handleConfirmDelete = () => {
     if (!toDeleteId) return;
@@ -73,14 +62,12 @@ export default function ReportTable() {
   const filteredReportes = useMemo(() => {
     if (!searchTerm) return reportes;
 
+    const term = searchTerm.toLowerCase();
     return reportes.filter((reporte) => {
+      const base = Object.values(reporte).join(' ').toLowerCase();
       return (
-        reporte.nombre.toLowerCase().includes(searchTerm) ||
-        reporte.direccion.toLowerCase().includes(searchTerm) ||
-        reporte.tiporeporte.toLowerCase().includes(searchTerm) ||
-        reporte.descripcionFuga.toLowerCase().includes(searchTerm) ||
-        reporte.ubicacionReferencia.toLowerCase().includes(searchTerm) ||
-        formatFechaHora(reporte.fechaHora).toLowerCase().includes(searchTerm)
+        base.includes(term) ||
+        formatFechaHora(reporte.fechaHora).toLowerCase().includes(term)
       );
     });
   }, [reportes, searchTerm]);
@@ -135,18 +122,9 @@ export default function ReportTable() {
             type="text"
             placeholder="Buscar reporte..."
             className="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-green-600"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSearch();
-            }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button
-            onClick={handleSearch}
-            className="bg-[#00796B] text-white px-4 py-2 rounded hover:bg-[#005944] transition"
-          >
-            Buscar
-          </button>
         </div>
 
         {filteredReportes.length === 0 ? (

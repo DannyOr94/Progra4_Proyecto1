@@ -1,0 +1,15 @@
+.form-label {
+  @apply block font-medium text-gray-700;
+}
+
+.form-input {
+  @apply w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600;
+}
+
+.form-button {
+  @apply bg-[#009285] text-white px-4 py-2 rounded hover:bg-[#055a55];
+}
+
+.form-button-secondary {
+  @apply bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400;
+}

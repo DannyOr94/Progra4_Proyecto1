@@ -10,8 +10,9 @@ import { useContext } from "react";
 import { AuthContext } from "../Context/AuthContext.jsx";
 import Login from "../Components/Login";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationToast } from '../Components/Toast';
 
 function ProveedoresPage() {
   const [proveedores, setProveedores] = useState([]);
@@ -93,7 +94,7 @@ function ProveedoresPage() {
   };
 
   const filtrados = proveedores.filter((p) =>
-    [p.id, p.nombreEmpresa]
+    Object.values(p)
       .join(' ')
       .toLowerCase()
       .includes(filtro.toLowerCase())
@@ -105,7 +106,7 @@ function ProveedoresPage() {
     <div>
       {user ? <div className="p-4">
         <div className="p-6 w-full mx-auto bg-white min-h-screen">
-          <ToastContainer />
+           <NotificationToast />
           <h1 className="text-2xl font-bold mb-4">Gestión de Proveedores</h1>
 
           <div className="flex items-center justify-between mb-4">
@@ -114,20 +115,21 @@ function ProveedoresPage() {
               placeholder="Buscar proveedores..."
               value={filtro}
               onChange={(e) => setFiltro(e.target.value)}
-              className="border border-teal-700 px-3 py-2 rounded w-64 focus:outline-none focus:ring-2 focus:ring-teal-600"
+              className="form-input w-64"
             />
             <button
               onClick={() => {
                 setProveedorEditando(null);
                 setShowModal(true);
               }}
-              className="bg-[#009285] text-white px-4 py-2 rounded hover:bg-[#055a55]"
+              className="form-button"
             >
               Agregar Proveedor
             </button>
           </div>
 
           <ProveedorList proveedores={filtrados} onEditar={editar} onEliminar={eliminar} />
+          <NotificationToast />
 
           {showModal && (
             <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 overflow-auto">
@@ -138,78 +140,78 @@ function ProveedoresPage() {
                   </h2>
                   <form onSubmit={guardar} className="space-y-4">
                   <div>
-                    <label className="block font-medium">Nombre de la Empresa</label>
+                    <label className="form-label">Nombre de la Empresa</label>
                     <input
                       type="text"
                       name="nombreEmpresa"
                       defaultValue={proveedorEditando?.nombreEmpresa || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Nombre del Representante</label>
+                    <label className="form-label">Nombre del Representante</label>
                     <input
                       type="text"
                       name="nombreRepresentante"
                       pattern="^[^\d]+$"
                       title="No se permiten números"
                       defaultValue={proveedorEditando?.nombreRepresentante || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Cédula del Representante</label>
+                    <label className="form-label">Cédula del Representante</label>
                     <input
                       type="text"
                       name="cedulaRepresentante"
                       pattern="\d+"
                       title="Solo se permiten números"
                       defaultValue={proveedorEditando?.cedulaRepresentante || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Correo de la Empresa</label>
+                    <label className="form-label">Correo de la Empresa</label>
                     <input
                       type="email"
                       name="correoEmpresa"
                       defaultValue={proveedorEditando?.correoEmpresa || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Teléfono de la Empresa</label>
+                    <label className="form-label">Teléfono de la Empresa</label>
                     <input
                       type="text"
                       name="telefonoEmpresa"
                       pattern="\d+"
                       title="Solo se permiten números"
                       defaultValue={proveedorEditando?.telefonoEmpresa || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Descripción de Productos</label>
+                    <label className="form-label">Descripción de Productos</label>
                     <input
                       type="text"
                       name="descripcionProductos"
                       defaultValue={proveedorEditando?.descripcionProductos || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block font-medium">Número de Cuenta</label>
+                    <label className="form-label">Número de Cuenta</label>
                     <input
                       type="text"
                       name="numeroCuenta"
                       defaultValue={proveedorEditando?.numeroCuenta || ''}
-                      className="w-full border border-teal-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      className="form-input"
                       required
                     />
                   </div>
@@ -218,7 +220,7 @@ function ProveedoresPage() {
                     <button
                       type="button"
                       onClick={cancelForm}
-                      className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                      className="form-button-secondary"
                     >
                       Cancelar
                     </button>
